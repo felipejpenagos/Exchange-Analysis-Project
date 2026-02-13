@@ -1,5 +1,8 @@
 # exchange_opt.py  –  CEE 251L, Duke University  |  H.P. Gavin
 
+import sys
+sys.path.insert(0, '/Users/pjaram84/Desktop/multivarious_ta')
+
 import numpy as np
 from multivarious.opt.nms import nms
 from multivarious.opt.ors import ors
@@ -25,9 +28,9 @@ if input("OK to continue? [y]/n : ").strip().lower() == 'n': raise SystemExit
 opts = [1, 0.1, 0.1, 0.1, 5000, 1, 2, 5, 0.01, 0]
 
 # EDIT — pick ONE optimizer, comment out the other two
-p_opt, f_opt, _, _ = nms(exchange_analysis, p_init, p_lb, p_ub, opts, constants)
-# p_opt, f_opt, _, _ = ors(exchange_analysis, p_init, p_lb, p_ub, opts, constants)
-# p_opt, f_opt, _, _ = sqp(exchange_analysis, p_init, p_lb, p_ub, opts, constants)
+p_opt, f_opt, g_opt, cvg_hst, function_evals, iteration = nms(exchange_analysis, p_init, p_lb, p_ub, opts, constants)
+# p_opt, f_opt, g_opt, cvg_hst, iteration, function_evals = ors(exchange_analysis, p_init, p_lb, p_ub, opts, constants)
+# p_opt, f_opt, g_opt, cvg_hst, lambda_qp, HESS          = sqp(exchange_analysis, p_init, p_lb, p_ub, opts, constants)
 
 f_opt, _ = exchange_analysis(p_opt, [20, stock_prices])           # DO NOT CHANGE
 print(f"Optimized value: ${-f_opt:.2f}  |  params: {np.round(p_opt,4)}")
