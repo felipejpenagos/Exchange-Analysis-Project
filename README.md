@@ -1,54 +1,37 @@
 # Exchange Analysis Project
+**CEE 251L — Uncertainty, Design, and Optimization | Duke University**
 
-**CEE 251L – Uncertainty, Design, and Optimization**  
-Duke University | Prof. Henri P. Gavin
+Optimize an automatic stock trading strategy using 200 days of closing prices for 19 stocks.
 
-Python translation of the MATLAB stock trading analysis and optimization framework.
+---
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `exchange_analysis.py` | Core simulation — computes portfolio value given trading parameters |
-| `exchange_opt.py` | Optimization script — finds best parameters using Nelder-Mead and Differential Evolution |
-| `stock_prices1.csv` | 200 days × 19 stocks closing price data |
+| `exchange_analysis.py` | Simulates the trading strategy. Returns portfolio value given a set of parameters. |
+| `exchange_opt.py` | Runs the optimizer to find the best parameters. **This is your main working file.** |
+| `stock_prices1.csv` | 200 days × 19 stocks closing price data. |
 
-## Design Variables
+## Getting Started
 
-| Parameter | Description |
-|-----------|-------------|
-| `q1` | Quality velocity coefficient |
-| `q2` | Quality acceleration coefficient |
-| `q3` | Quality volatility coefficient |
-| `fc` | Fraction of cash to invest (0–1) |
-| `phi` | Forgetting factor for running average (0–1) |
-| `B1` | Initial buy threshold |
-| `S1` | Initial sell threshold |
-
-## Usage
-
-```python
-import numpy as np
-from exchange_analysis import exchange_analysis
-
-stock_prices = np.genfromtxt('stock_prices1.csv', delimiter=',')
-
-# Example parameters from project PDF
-param = [-10.0, 2.0, -2.0, 0.9, 0.5, 0.1, -0.1]
-
-cost, _ = exchange_analysis(param, [0, stock_prices])
-print(f"Portfolio value: ${-cost:.2f}")
-```
-
-Run optimization:
 ```bash
+pip install numpy matplotlib
+pip install multivarious   # or install from the course repo
 python exchange_opt.py
 ```
 
-## Dependencies
+## What to Edit
 
-```
-numpy
-scipy
-matplotlib
-```
+**`exchange_analysis.py`** has 5 clearly marked `# EDIT HERE` sections:
+1. Quality equation Q (add/remove terms)
+2. Sell decision logic
+3. How cash is distributed among purchased stocks
+4. Threshold update rule
+5. Minimum gap between buy/sell thresholds
+
+**`exchange_opt.py`** — set your initial guess, bounds, optimizer options, and choose between `nms`, `ors`, or `sqp`.
+
+## Goal
+
+Maximize the total value of cash + investments after 200 trading days, starting with **$1,000**.
